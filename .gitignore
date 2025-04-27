@@ -1,5 +1,6 @@
 # Compiler files
 .github/
+.keys/
 
 cache/
 out/

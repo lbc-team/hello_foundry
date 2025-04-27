@@ -57,6 +57,10 @@ $ forge script script/Counter.s.sol:CounterScript -f <your_rpc_url> --private-ke
 $ forge script script/xxx.sol -f local --broadcast
 
 $ forge script script/TokenBank.s.sol  --broadcast -f http://127.0.0.1:8545
+
+# 在script 代码中加载账号
+$ forge script script/MyERC20_2.s.sol --rpc-url http://localhost:8545 --broadcast
+
 ```
 
 ### Cast
