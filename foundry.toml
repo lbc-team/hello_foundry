@@ -3,4 +3,15 @@ src = "src"
 out = "out"
 libs = ["lib"]
 
+
+[rpc_endpoints]
+sepolia = "${SEPOLIA_RPC_URL}"
+polygon = "${POLYGON_RPC_URL}"
+local = "http://127.0.0.1:8545"
+optimism = "${OPTIMISM_RPC_URL}"
+
+
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
+
+[etherscan]
+sepolia = { key = "${ETHERSCAN_API_KEY}" }
