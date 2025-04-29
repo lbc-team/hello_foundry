@@ -8,12 +8,12 @@ contract Owner {
         owner = msg.sender;
     }
 
-    // event OwnerTransfer(address caller, address newOwner);
+    event OwnerTransfer(address indexed caller, address indexed newOwner);
 
     function transferOwnership(address newOwner) public {
         require(msg.sender == owner, "Only the owner can transfer ownership");
         owner = newOwner;
-        // emit OwnerTransfer(msg.sender, newOwner);
+        emit OwnerTransfer(msg.sender, newOwner);
     }
 
     error NotOwner(address caller);

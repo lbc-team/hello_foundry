@@ -117,15 +117,13 @@ contract CheatcodeTest is Test {
         vm.stopPrank();
     }
 
+    event OwnerTransfer(address indexed caller, address indexed newOwner);
     function test_Emit() public {
-        vm.startPrank(alice);
         Owner o = new Owner();
 
-        // vm.expectEmit(true, false, false, false);
-        // emit Owner.OwnerTransfer(alice, bob);
+        vm.expectEmit(true, true, false, false);
+        emit OwnerTransfer(address(this), bob);
         o.transferOwnership(bob);
-        vm.stopPrank();
-
     }
 
 }
