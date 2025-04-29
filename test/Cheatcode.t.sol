@@ -8,10 +8,13 @@ import {MyERC20} from "../src/MyERC20.sol";
 
 contract CheatcodeTest is Test {
     Counter public counter;
-    
+    address public alice;
+    address public bob;
+
     function setUp() public {
         counter = new Counter();
-        counter.setNumber(0);
+        alice = makeAddr("alice");
+        bob = makeAddr("bob");
     }
 
     function test_Roll() public {
@@ -33,7 +36,6 @@ contract CheatcodeTest is Test {
         console.log("owner address", address(o.owner()));
         assertEq(o.owner(), address(this));
 
-        address alice = makeAddr("alice");
         console.log("alice address", alice);
         vm.prank(alice);
 
@@ -60,9 +62,6 @@ contract CheatcodeTest is Test {
         console.log("owner address", address(o.owner()));
         assertEq(o.owner(), address(this));
 
-        address alice = makeAddr("alice");
-        console.log("alice address", alice);
-
         vm.startPrank(alice);
         Owner o2 = new Owner();
         assertEq(o2.owner(), alice);
@@ -73,8 +72,6 @@ contract CheatcodeTest is Test {
     }
 
     function test_Deal() public {
-        address alice = makeAddr("alice");
-        console.log("alice address", alice);
         vm.deal(alice, 100 ether);
         assertEq(alice.balance, 100 ether);
 
@@ -86,13 +83,49 @@ contract CheatcodeTest is Test {
         MyERC20 token = new MyERC20("OpenSpace S6", "OS6");
         console.log("token address", address(token));
 
-        address alice = makeAddr("alice");
         console.log("alice address", alice);
 
         deal(address(token), alice, 100 ether);  // StdCheats.deal
 
         console.log("alice token balance", token.balanceOf(alice));
         assertEq(token.balanceOf(alice), 100 ether);
+    }
+
+// forge test test/Cheatcode.t.sol --mt test_Revert_IFNOT_Owner -vv
+    function test_Revert_IFNOT_Owner() public {
+        
+        vm.startPrank(alice);
+        Owner o = new Owner();
+        vm.stopPrank();
+
+        vm.startPrank(bob);
+        vm.expectRevert("Only the owner can transfer ownership"); // 预期下一条语句会revert
+        o.transferOwnership(alice);
+        vm.stopPrank();
+
+    }
+
+    function test_Revert_IFNOT_Owner2() public {
+        vm.startPrank(alice);
+        Owner o = new Owner();
+        vm.stopPrank();
+
+        vm.startPrank(bob);
+        bytes memory data = abi.encodeWithSignature("NotOwner(address)", bob);
+        vm.expectRevert(data); // 预期下一条语句会revert
+        o.transferOwnership2(alice);
+        vm.stopPrank();
+    }
+
+    function test_Emit() public {
+        vm.startPrank(alice);
+        Owner o = new Owner();
+
+        // vm.expectEmit(true, false, false, false);
+        // emit Owner.OwnerTransfer(alice, bob);
+        o.transferOwnership(bob);
+        vm.stopPrank();
+
     }
 
 }
