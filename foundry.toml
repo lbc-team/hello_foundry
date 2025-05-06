@@ -4,6 +4,12 @@ out = "out"
 libs = ["lib"]
 
 
+fs_permissions = [
+    { access = "write", path = "./deployments" }
+]
+
+
+
 [rpc_endpoints]
 sepolia = "${SEPOLIA_RPC_URL}"
 polygon = "${POLYGON_RPC_URL}"

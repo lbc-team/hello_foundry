@@ -13,6 +13,8 @@ contract CounterScript is BaseScript {
         counter = new Counter();
         console.log("Counter deployed on %s", address(counter));
 
+        saveContract("Counter", address(counter));
+
         counter.setNumber(10);
         counter.increment();
     }

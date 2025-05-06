@@ -23,7 +23,7 @@ abstract contract BaseScript is Script {
         
         string memory json1 = "key";
         string memory finalJson =  vm.serializeAddress(json1, "address", addr);
-        string memory dirPath = string.concat(string.concat("output/", name), "/");
+        string memory dirPath = string.concat(string.concat("deployments/", name), "_");
         vm.writeJson(finalJson, string.concat(dirPath, string.concat(chainId, ".json"))); 
 
     }
