@@ -18,6 +18,7 @@ abstract contract BaseScript is Script {
         // console.log("user: %s", user);
     }
 
+
     function saveContract(string memory name, address addr) public {
         string memory chainId = vm.toString(block.chainid);
         
@@ -25,7 +26,6 @@ abstract contract BaseScript is Script {
         string memory finalJson =  vm.serializeAddress(json1, "address", addr);
         string memory dirPath = string.concat(string.concat("deployments/", name), "_");
         vm.writeJson(finalJson, string.concat(dirPath, string.concat(chainId, ".json"))); 
-
     }
 
     modifier broadcaster() {

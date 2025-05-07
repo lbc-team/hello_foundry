@@ -38,7 +38,6 @@ contract CheatcodeTest is Test {
 
         console.log("alice address", alice);
         vm.prank(alice);
-
         Owner o2 = new Owner();
         assertEq(o2.owner(), alice);
     }

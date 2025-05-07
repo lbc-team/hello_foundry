@@ -15,7 +15,7 @@ contract CounterScript is BaseScript {
 
         saveContract("Counter", address(counter));
 
-        counter.setNumber(10);
-        counter.increment();
+        // counter.setNumber(10);
+        // counter.increment();
     }
 }
