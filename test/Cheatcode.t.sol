@@ -29,6 +29,20 @@ contract CheatcodeTest is Test {
         assertEq(counter.number(), 1);
     }
 
+
+
+    function test_Warp() public {
+        uint256 newTimestamp = 1746669703; 
+        vm.warp(newTimestamp);
+        console.log("after warp Block timestamp", block.timestamp);
+        assertEq(block.timestamp, newTimestamp);
+
+        skip(1000);
+        console.log("after skip Block timestamp", block.timestamp);
+        assertEq(block.timestamp, newTimestamp + 1000);
+    }
+
+
     function test_Prank() public {
         console.log("current contract address", address(this));
 
@@ -42,18 +56,6 @@ contract CheatcodeTest is Test {
         assertEq(o2.owner(), alice);
     }
 
-    function test_Warp() public {
-        uint256 newTimestamp = 1693222800;
-        vm.warp(newTimestamp);
-        console.log("after warp Block timestamp", block.timestamp);
-        assertEq(block.timestamp, newTimestamp);
-
-        skip(1000);
-        console.log("after skip Block timestamp", block.timestamp);
-        assertEq(block.timestamp, newTimestamp + 1000);
-    }
-
-
     function test_StartPrank() public {
         console.log("current contract address", address(this));
 
@@ -64,6 +66,11 @@ contract CheatcodeTest is Test {
         vm.startPrank(alice);
         Owner o2 = new Owner();
         assertEq(o2.owner(), alice);
+
+
+        Owner o4 = new Owner();
+        assertEq(o4.owner(), alice);
+
         vm.stopPrank();
 
         Owner o3 = new Owner();
@@ -120,6 +127,7 @@ contract CheatcodeTest is Test {
     function test_Emit() public {
         Owner o = new Owner();
 
+        // function expectEmit(bool checkTopic1, bool checkTopic2, bool checkTopic3, bool checkData) external;
         vm.expectEmit(true, true, false, false);
         emit OwnerTransfer(address(this), bob);
         o.transferOwnership(bob);

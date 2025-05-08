@@ -89,6 +89,7 @@ forge verify-contract \
     --etherscan-api-key $POLYSCAN_API_KEY \
     --chain-id 137
 
+forge inspect MyERC20 abi --json > MyERC20.json
 ```
 
 ### Cast

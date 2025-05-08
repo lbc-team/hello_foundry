@@ -9,5 +9,6 @@ contract CounterScript is BaseScript {
     function run() public broadcaster {
         MyERC20 token = new MyERC20("OpenSpace S6", "OS6");
         console.log("MyERC20 deployed on %s", address(token));
+        saveContract("MyERC20", address(token));
     }
 }

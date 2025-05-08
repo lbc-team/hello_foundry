@@ -9,7 +9,6 @@ fs_permissions = [
 ]
 
 
-
 [rpc_endpoints]
 sepolia = "${SEPOLIA_RPC_URL}"
 polygon = "${POLYGON_RPC_URL}"
