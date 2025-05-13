@@ -2,11 +2,13 @@
 pragma solidity ^0.8.19;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@permit2-light-sdk/sdk/IPermit2.sol";
+import "@permit2-light-sdk/sdk/ISignatureTransfer.sol";
 
 // code generate by AI for demo
-contract TokenBank is Ownable {
+contract TokenBank {
     IERC20 public token;
+    IPermit2 public immutable permit2;
     
     // 记录每个地址的存款数量
     mapping(address => uint256) public deposits;
@@ -18,8 +20,9 @@ contract TokenBank is Ownable {
     event Deposit(address indexed user, uint256 amount);
     event Withdraw(address indexed user, uint256 amount);
     
-    constructor(address _token) Ownable(msg.sender) {
+    constructor(address _token, address _permit2)  {
         token = IERC20(_token);
+        permit2 = IPermit2(_permit2);
     }
     
     /**
@@ -37,6 +40,42 @@ contract TokenBank is Ownable {
         totalDeposits += amount;
         
         emit Deposit(msg.sender, amount);
+    }
+    
+    function depositWithPermit2(
+        uint256 amount,
+        uint256 nonce,
+        uint256 deadline,
+        bytes calldata signature
+    ) external {
+        require(amount > 0, "Amount must be greater than 0");
+
+
+        ISignatureTransfer.PermitTransferFrom memory permit = ISignatureTransfer.PermitTransferFrom({
+            permitted: ISignatureTransfer.TokenPermissions({ token: address(token), amount: amount }),
+            nonce: nonce,
+            deadline: deadline
+        });
+        
+
+        ISignatureTransfer.SignatureTransferDetails memory transferDetails = ISignatureTransfer.SignatureTransferDetails({
+            to: address(this),
+            requestedAmount: permit.permitted.amount
+        });
+
+        // 使用 Permit2 的 permitTransferFrom 进行授权和转账
+        permit2.permitTransferFrom(
+            permit,
+            transferDetails,
+            msg.sender,     
+            signature
+        );
+        
+        // 更新存款记录
+        deposits[msg.sender] += permit.permitted.amount;
+        totalDeposits += permit.permitted.amount;
+        
+        emit Deposit(msg.sender, permit.permitted.amount);
     }
     
     /**

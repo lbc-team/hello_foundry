@@ -20,7 +20,7 @@ contract TokenBankTest is Test {
         testToken = new MyERC20("Test Token", "TEST");
         
         // 部署 TokenBank
-        tokenBank = new TokenBank(address(testToken));
+        tokenBank = new TokenBank(address(testToken), address(0x000000000022D473030F116dDEE9F6B43aC78BA3));
         
         // 给测试账户转账
         testToken.transfer(alice, INITIAL_BALANCE);

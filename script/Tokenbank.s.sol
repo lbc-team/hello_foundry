@@ -15,7 +15,7 @@ contract TokenbankScript is BaseScript {
         console.log("MyERC20 deployed on %s", address(token));
         saveContract("MyERC20", address(token));
 
-        TokenBank tokenBank = new TokenBank(address(token));
+        TokenBank tokenBank = new TokenBank(address(token), address(0x000000000022D473030F116dDEE9F6B43aC78BA3));
         console.log("TokenBank deployed on %s", address(tokenBank));
         saveContract("TokenBank", address(tokenBank));
     }
