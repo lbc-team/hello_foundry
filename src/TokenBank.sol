@@ -51,16 +51,20 @@ contract TokenBank {
         require(amount > 0, "Amount must be greater than 0");
 
 
+        // 构造 PermitTransferFrom 结构体
         ISignatureTransfer.PermitTransferFrom memory permit = ISignatureTransfer.PermitTransferFrom({
-            permitted: ISignatureTransfer.TokenPermissions({ token: address(token), amount: amount }),
-            nonce: nonce,
-            deadline: deadline
+            permitted: ISignatureTransfer.TokenPermissions({
+                token: address(token), // 要授权的代币地址
+                amount: amount  // 要授权的金额
+                }),
+            nonce: nonce, // 防止重放攻击的随机数
+            deadline: deadline // 授权的截止时间
         });
         
-
+        // 构造 SignatureTransferDetails 结构体
         ISignatureTransfer.SignatureTransferDetails memory transferDetails = ISignatureTransfer.SignatureTransferDetails({
-            to: address(this),
-            requestedAmount: permit.permitted.amount
+            to: address(this), // 接收代币的地址（当前合约）
+            requestedAmount: permit.permitted.amount // // 请求转账的金额
         });
 
         // 使用 Permit2 的 permitTransferFrom 进行授权和转账
