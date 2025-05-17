@@ -112,3 +112,24 @@ contract StorageArray {
         }
     }
 }
+
+
+contract StorageString {
+    string public a = "short"; // slot 0  少于 31 字节 // cast from-utf8 "short"  0x73686f7274
+    
+    string public b = "too too too too too too too too too too too too too too long"; // slot 1
+    // cast from-utf8 "too too too too too too too too too too too too too too long"
+    // 0x746f6f20746f6f20746f6f20746f6f20746f6f20746f6f20746f6f20746f6f20746f6f20746f6f20746f6f20746f6f20746f6f20746f6f206c6f6e67
+
+    function getArraySlotStart() public pure returns (bytes32) {
+        uint256 slot = 1; // 动态 array 声明在槽位 3
+        return keccak256(abi.encode(slot));
+    }
+
+    function getValueAtSlot(bytes32 slot) public view returns (bytes32 value) {
+        assembly {
+            value := sload(slot)
+        }
+    }
+
+}
