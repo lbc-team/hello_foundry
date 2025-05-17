@@ -49,6 +49,8 @@ $ anvil
 
 ```shell
 
+
+
 forge create Counter --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 --rpc-url http://localhost:8545 --broadcast
 
 
@@ -90,6 +92,18 @@ forge verify-contract \
     --chain-id 137
 
 forge inspect MyERC20 abi --json > MyERC20.json
+
+# 转账
+cast to-wei 1
+cast send 0xa0Ee7A142d267C1f36714E4a8F75612F20a79720 --value 1000000000000000000 --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 --rpc-url local
+
+# ERC20 转账
+
+cast send  0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9
+
+cast send 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9 "transfer(address to, uint256 value)" 0xa0Ee7A142d267C1f36714E4a8F75612F20a79720 1000000000000000000000 --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 --rpc-url local
+
+cast send 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9 "approve(address to, uint256 value)" 0xa0Ee7A142d267C1f36714E4a8F75612F20a79720 1000000000000000000000 --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 --rpc-url local
 ```
 
 ### Cast
@@ -99,6 +113,7 @@ $ cast <subcommand>
 
 #  keccak
 cast keccak 'transfer(address to, uint256 value)'
+0xa9059c
 cast keccak 'transfer(address,uint256)'  # 0xa9059cbb2ab09eb219583f4a59a5d0623ade346d962bcd4e46b11da047c9049b
 
 cast sig 'transfer(address to, uint256 value)'
@@ -124,9 +139,8 @@ cast abi-encode 'enc(uint a, bytes memory b)' 1 0x0123
 logs                 [{"address":"0xdac17f958d2ee523a2206206994597c13d831ec7","topics":["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef","0x000000000000000000000000214095cca66b93f7dd819e51a19d6560f8450936","0x00000000000000000000000028c6c06298d514db089934071355e5743bf21d60"],"data":"0x000000000000000000000000000000000000000000000000000000006553f100","blockHash":"0x3bdf2afb4eddcb848093c6f2466804a45aea4c5b12532136e1f48a0e474a0719","blockNumber":"0x1570445","transactionHash":"0x5f7fd2457348472ec5c25500cae145b91843ccf3921e4cbe78fd91c39a8b6855","transactionIndex":"0x163","logIndex":"0x255","removed":false}]
 
 
-```
 
- 
+```
 
 ### Help
 

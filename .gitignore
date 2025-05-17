@@ -4,6 +4,7 @@
 
 cache/
 out/
+deployments/*
 
 # Ignores development broadcast logs
 !/broadcast
