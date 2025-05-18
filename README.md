@@ -104,6 +104,8 @@ cast send  0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9
 cast send 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9 "transfer(address to, uint256 value)" 0xa0Ee7A142d267C1f36714E4a8F75612F20a79720 1000000000000000000000 --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 --rpc-url local
 
 cast send 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9 "approve(address to, uint256 value)" 0xa0Ee7A142d267C1f36714E4a8F75612F20a79720 1000000000000000000000 --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 --rpc-url local
+
+forge inspect StorageVars storageLayout
 ```
 
 ### Cast

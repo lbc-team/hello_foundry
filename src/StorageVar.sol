@@ -90,7 +90,9 @@ contract StorageMapping {
 contract StorageArray {
     uint a; // slot 0
     uint[2] public b; // slot 1, 2
-    uint[] public c; // slot 3  // save length, 元素数据存储的起始位置是：keccak256(slot)，
+    uint[] public c; // slot 3  // save length, 元素数据存储的起始位置是：keccak256(slot)
+
+    uint32[2] public d; // slot 4
 
     function foo() public {
         b[0] = 1;
@@ -98,6 +100,9 @@ contract StorageArray {
 
         c.push(3);
         c.push(4);
+
+        d[0] = 1;
+        d[1] = 2;
     }
 
     function getArraySlotStart() public pure returns (bytes32) {
@@ -105,8 +110,14 @@ contract StorageArray {
         return keccak256(abi.encode(slot));
     }
 
-    function getValueAtSlot(uint index) public view returns (uint256 value) {
+    function getValueAtIndex(uint index) public view returns (uint256 value) {
         bytes32 slot = bytes32(uint256(getArraySlotStart()) + index);
+        assembly {
+            value := sload(slot)
+        }
+    }
+
+    function getValueAtSlot(bytes32 slot) public view returns (bytes32 value) {
         assembly {
             value := sload(slot)
         }
@@ -122,7 +133,7 @@ contract StorageString {
     // 0x746f6f20746f6f20746f6f20746f6f20746f6f20746f6f20746f6f20746f6f20746f6f20746f6f20746f6f20746f6f20746f6f20746f6f206c6f6e67
 
     function getArraySlotStart() public pure returns (bytes32) {
-        uint256 slot = 1; // 动态 array 声明在槽位 3
+        uint256 slot = 1; // 动态 array 声明在槽位 1
         return keccak256(abi.encode(slot));
     }
 
