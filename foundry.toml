@@ -3,6 +3,13 @@ src = "src"
 out = "out"
 libs = ["lib"]
 
+solc-version = "0.8.29"
+# optimizer = true
+# 优化器: 运行次数 预期合约在部署后会被调用的次数 最大2^32-1
+# optimizer-runs = 200
+# 使用中间表示
+# via_ir = true
+
 
 fs_permissions = [
     { access = "write", path = "./deployments" }

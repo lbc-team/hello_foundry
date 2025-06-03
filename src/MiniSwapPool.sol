@@ -7,6 +7,14 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 // fork from https://github.com/monokh/looneyswap
 
+// Tom：1  MSP 
+// Bob: 2 MSP 
+// Alice: 3 MSP 
+
+
+// 10100 reserve0  Token0
+// 6060  reserve1  Token1
+
 contract MiniSwapPool is ERC20 {
     address public token0;
     address public token1;
@@ -67,7 +75,7 @@ contract MiniSwapPool is ERC20 {
         uint amount0 = liquidity * reserve0 / currentSupply;
         uint amount1 = liquidity * reserve1 / currentSupply;
 
-        _burn(address(this), liquidity);
+        _burn(address(this), liquidity);    //  1 MSP
 
         assert(IERC20(token0).transfer(msg.sender, amount0));
         assert(IERC20(token1).transfer(msg.sender, amount1));

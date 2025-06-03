@@ -74,9 +74,9 @@ $ forge script script/MyERC20_2.s.sol --rpc-url sepolia --broadcast
 
 
 forge verify-contract \
-    0x98dFd785d9f0083797D2708791DF77f41843F594 \
+    0x3DFcc1C8bd62EC42513E1424945546D447Ef3A2E \
     src/MyERC20.sol:MyERC20 \
-    --constructor-args $(cast abi-encode "constructor(string,string)" "OpenSpace S6" "OS6") \
+    --constructor-args $(cast abi-encode "constructor(string,string)" "OpenSpace Token" "OPS") \
     --verifier etherscan \
     --verifier-url https://api-sepolia.etherscan.io/api \
     --etherscan-api-key $ETHERSCAN_API_KEY \
