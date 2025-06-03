@@ -1,6 +1,7 @@
 pragma solidity ^0.8.18;
 
 import {Test, console} from "forge-std/Test.sol";
+import {Vm} from "forge-std/Vm.sol";
 import {SimpleDelegateContract, ERC20} from "../src/SimpleDelegateContract.sol";
 
 contract SignDelegationTest is Test {
@@ -19,7 +20,7 @@ contract SignDelegationTest is Test {
     ERC20 public token;
  
     function setUp() public {
-        // Deploy the delegation contract (Alice will delegate calls to this contract).
+        // Alice 将委托到这个合约
         implementation = new SimpleDelegateContract();
  
         // Deploy an ERC-20 token contract where Alice is the minter.
@@ -32,21 +33,21 @@ contract SignDelegationTest is Test {
         bytes memory data = abi.encodeCall(ERC20.mint, (100, BOB_ADDRESS));
         calls[0] = SimpleDelegateContract.Call({to: address(token), data: data, value: 0});
  
-        // Alice signs a delegation allowing `implementation` to execute transactions on her behalf.
+        // Alice 签署一个委托，允许 `implementation` 执行交易。
         Vm.SignedDelegation memory signedDelegation = vm.signDelegation(address(implementation), ALICE_PK);
  
-        // Bob attaches the signed delegation from Alice and broadcasts it.
+        // Bob 附加 Alice 的签名委托并广播。
         vm.broadcast(BOB_PK);
         vm.attachDelegation(signedDelegation);
  
-        // Verify that Alice's account now behaves as a smart contract.
+        // 验证 Alice 的账户现在是一个智能合约。
         bytes memory code = address(ALICE_ADDRESS).code;
         require(code.length > 0, "no code written to Alice");
  
-        // As Bob, execute the transaction via Alice's assigned contract.
+        // 作为 Bob，代表 Alice 的合约执行交易。
         SimpleDelegateContract(ALICE_ADDRESS).execute(calls);
  
-        // Verify Bob successfully received 100 tokens.
+        // 验证 Bob 成功收到 100 个代币。
         assertEq(token.balanceOf(BOB_ADDRESS), 100);
     }
  
@@ -56,18 +57,18 @@ contract SignDelegationTest is Test {
         bytes memory data = abi.encodeCall(ERC20.mint, (100, BOB_ADDRESS));
         calls[0] = SimpleDelegateContract.Call({to: address(token), data: data, value: 0});
  
-        // Alice signs and attaches the delegation in one step (eliminating the need for separate signing).
+        // Alice 签署并附加委托（一步完成，无需单独签署）
         vm.signAndAttachDelegation(address(implementation), ALICE_PK);
  
-        // Verify that Alice's account now behaves as a smart contract.
+        // 验证 Alice 的账户现在是一个智能合约。
         bytes memory code = address(ALICE_ADDRESS).code;
         require(code.length > 0, "no code written to Alice");
  
-        // As Bob, execute the transaction via Alice's assigned contract.
+        // 作为 Bob，代表 Alice 执行交易。
         vm.broadcast(BOB_PK);
         SimpleDelegateContract(ALICE_ADDRESS).execute(calls);
  
-        // Verify Bob successfully received 100 tokens.
+        // 验证 Bob 成功收到 100 个代币。
         vm.assertEq(token.balanceOf(BOB_ADDRESS), 100);
     }
 }
