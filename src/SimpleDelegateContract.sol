@@ -3,6 +3,9 @@
 
 pragma solidity ^0.8.17;
 
+import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import { TokenBank } from "../src/TokenBank.sol";
+
 contract SimpleDelegateContract {
     event Executed(address indexed to, uint256 value, bytes data);
  
@@ -20,11 +23,27 @@ contract SimpleDelegateContract {
             emit Executed(call.to, call.value, call.data);
         }
     }
- 
+
     receive() external payable {}
+
+
+    event Log(string message);
+
+    function initialize() external payable {
+        emit Log('Hello, world!');
+    }
+    
+    function ping() external {
+        emit Log('Pong!');
+    }
+
+    function approveAndDeposit(address token, address tokenbank, uint256 amount) external {
+        IERC20(token).approve(tokenbank, amount);
+        TokenBank(tokenbank).deposit(amount);
+    }
 }
  
-contract ERC20 {
+contract MockERC20 {
     address public minter;
     mapping(address => uint256) private _balances;
  

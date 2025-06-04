@@ -2,7 +2,7 @@ pragma solidity ^0.8.18;
 
 import {Test, console} from "forge-std/Test.sol";
 import {Vm} from "forge-std/Vm.sol";
-import {SimpleDelegateContract, ERC20} from "../src/SimpleDelegateContract.sol";
+import {SimpleDelegateContract, MockERC20} from "../src/SimpleDelegateContract.sol";
 
 contract SignDelegationTest is Test {
     // Alice's address and private key (EOA with no initial contract code).
@@ -17,20 +17,20 @@ contract SignDelegationTest is Test {
     SimpleDelegateContract public implementation;
  
     // ERC-20 token contract for minting test tokens.
-    ERC20 public token;
+    MockERC20 public token;
  
     function setUp() public {
         // Alice 将委托到这个合约
         implementation = new SimpleDelegateContract();
  
         // Deploy an ERC-20 token contract where Alice is the minter.
-        token = new ERC20(ALICE_ADDRESS);
+        token = new MockERC20(ALICE_ADDRESS);
     }
  
     function testSignDelegationAndThenAttachDelegation() public {
         // Construct a single transaction call: Mint 100 tokens to Bob.
         SimpleDelegateContract.Call[] memory calls = new SimpleDelegateContract.Call[](1);
-        bytes memory data = abi.encodeCall(ERC20.mint, (100, BOB_ADDRESS));
+        bytes memory data = abi.encodeCall(MockERC20.mint, (100, BOB_ADDRESS));
         calls[0] = SimpleDelegateContract.Call({to: address(token), data: data, value: 0});
  
         // Alice 签署一个委托，允许 `implementation` 执行交易。
