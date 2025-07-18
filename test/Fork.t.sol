@@ -34,8 +34,6 @@ contract ForkTest is Test {
         vm.selectFork(polygonForkId);
         assertEq(vm.activeFork(), polygonForkId);
 
-
-
     }
 
 }

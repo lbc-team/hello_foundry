@@ -15,6 +15,12 @@ contract CheatcodeTest is Test {
         counter = new Counter();
         alice = makeAddr("alice");
         bob = makeAddr("bob");
+        // console.log("New Counter instance:", address(counter));
+    }
+
+    function testFuzz_SetNumber(uint256 x) public {
+        counter.setNumber(x);
+        assertEq(counter.number(), x);
     }
 
     function test_Roll() public {
@@ -32,7 +38,7 @@ contract CheatcodeTest is Test {
 
 
     function test_Warp() public {
-        uint256 newTimestamp = 1746669703; 
+        uint256 newTimestamp = 1753207525; 
         vm.warp(newTimestamp);
         console.log("after warp Block timestamp", block.timestamp);
         assertEq(block.timestamp, newTimestamp);
@@ -45,6 +51,7 @@ contract CheatcodeTest is Test {
 
     function test_Prank() public {
         console.log("current contract address", address(this));
+        console.log("test_Prank  counter address", address(counter));
 
         Owner o = new Owner();
         console.log("owner address", address(o.owner()));
@@ -58,6 +65,7 @@ contract CheatcodeTest is Test {
 
     function test_StartPrank() public {
         console.log("current contract address", address(this));
+        console.log("test_StartPrank  counter address", address(counter));
 
         Owner o = new Owner();
         console.log("owner address", address(o.owner()));
@@ -86,12 +94,13 @@ contract CheatcodeTest is Test {
     }
 
     function test_Deal_ERC20() public {
-        MyERC20 token = new MyERC20("OpenSpace S6", "OS6");
+        MyERC20 token = new MyERC20("OpenSpace S7", "OS6");
         console.log("token address", address(token));
 
         console.log("alice address", alice);
 
-        deal(address(token), alice, 100 ether);  // StdCheats.deal
+        // 1 token = 10 ^ 18 
+        deal(address(token), alice, 100e18);  // StdCheats.deal
 
         console.log("alice token balance", token.balanceOf(alice));
         assertEq(token.balanceOf(alice), 100 ether);
@@ -105,6 +114,7 @@ contract CheatcodeTest is Test {
         vm.stopPrank();
 
         vm.startPrank(bob);
+        // vm.expectRevert();
         vm.expectRevert("Only the owner can transfer ownership"); // 预期下一条语句会revert
         o.transferOwnership(alice);
         vm.stopPrank();
@@ -130,6 +140,7 @@ contract CheatcodeTest is Test {
         // function expectEmit(bool checkTopic1, bool checkTopic2, bool checkTopic3, bool checkData) external;
         vm.expectEmit(true, true, false, false);
         emit OwnerTransfer(address(this), bob);
+
         o.transferOwnership(bob);
     }
 

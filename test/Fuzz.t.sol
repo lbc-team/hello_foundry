@@ -22,6 +22,7 @@ contract FuzzTest is Test {
     }
 
     function testFuzz_ERC20Transfer(address to, uint256 amount) public {
+        // console.log("token:", address(token)); // 无法打印日志
         vm.assume(to != address(0));
         vm.assume(to != address(this));
         amount = bound(amount, 0, 10000 * 10 ** 18);

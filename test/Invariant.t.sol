@@ -10,6 +10,7 @@ contract MyERC20Test is Test {
     
     function setUp() public {
         token = new MyERC20("MyToken", "MTK");
+        // console.log("New MyERC20 instance:", address(token));
         
         // 创建一些测试用户
         for (uint i = 1; i <= 10; i++) {
