@@ -14,8 +14,8 @@ abstract contract BaseScript is Script {
         console.log("deployer: %s", deployer);
 
         // uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
-        // user = vm.addr(deployerPrivateKey);
-        // console.log("user: %s", user);
+        // deployer = vm.addr(deployerPrivateKey);
+        // console.log("deployer: %s", deployer);
     }
 
 

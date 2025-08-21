@@ -12,6 +12,8 @@ contract Counter {
 
     function increment() public {
         number++;
+        // number--;
+        // number++;
         console.log("Number incremented to", number);
     }
 }

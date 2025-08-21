@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 contract IDO {
     IERC20 public opsToken;
     address public owner;
+    
     uint256 public constant TOKEN_PRICE = 0.0001 ether; // 1 OPS = 0.0001 ETH
     uint256 public constant TOTAL_TOKENS = 1_000_000 * 1e18; // 100万 OPS
     uint256 public constant SOFT_CAP = 100 ether; // 预售目标

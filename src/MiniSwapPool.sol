@@ -45,9 +45,12 @@ contract MiniSwapPool is ERC20 {
         uint reserve0After = reserve0 + amount0;
         uint reserve1After = reserve1 + amount1;
 
-        if (reserve0 == 0 && reserve1 == 0) {
+        if (reserve0 == 0 && reserve1 == 0) 
+        {
             _mint(msg.sender, INITIAL_SUPPLY);
-        } else {
+        } 
+        else 
+        {
             uint currentSupply = totalSupply();
 
             uint newSupplyGivenReserve0Ratio = reserve0After * currentSupply / reserve0;

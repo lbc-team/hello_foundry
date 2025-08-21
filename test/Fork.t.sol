@@ -26,7 +26,7 @@ contract ForkTest is Test {
         assertEq(vm.activeFork(), sepoliaForkId);
 
         MyERC20 token = MyERC20(0x21b4D1f6d42dc6083db848D42AA4b6895371E1e7);
-        assertGe(token.balanceOf(0xe74c813e3f545122e88A72FB1dF94052F93B808f), 2e18);
+        assertGe(token.balanceOf(0xe7a4159Be8c74c3BB38A45B31cF59889EF3F32b7), 2e18);
     }
 
 

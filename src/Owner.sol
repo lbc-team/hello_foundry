@@ -3,6 +3,11 @@ pragma solidity ^0.8.13;
 
 contract Owner {
     address public owner;
+    uint8 public x;
+    address public owner2;
+    uint public y;
+    address public owner3;
+    
 
     constructor() {
         owner = msg.sender;
@@ -17,6 +22,7 @@ contract Owner {
     }
 
     error NotOwner(address caller);
+
     function transferOwnership2(address newOwner) public {
         if (msg.sender != owner) revert NotOwner(msg.sender);
         owner = newOwner;

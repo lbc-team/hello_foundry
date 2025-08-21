@@ -54,7 +54,7 @@ contract SignDelegationTest is Test {
     function testSignAndAttachDelegation() public {
         // Construct a single transaction call: Mint 100 tokens to Bob.
         SimpleDelegateContract.Call[] memory calls = new SimpleDelegateContract.Call[](1);
-        bytes memory data = abi.encodeCall(ERC20.mint, (100, BOB_ADDRESS));
+        bytes memory data = abi.encodeCall(MockERC20.mint, (100, BOB_ADDRESS));
         calls[0] = SimpleDelegateContract.Call({to: address(token), data: data, value: 0});
  
         // Alice 签署并附加委托（一步完成，无需单独签署）

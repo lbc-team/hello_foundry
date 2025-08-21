@@ -100,7 +100,7 @@ contract CheatcodeTest is Test {
         console.log("alice address", alice);
 
         // 1 token = 10 ^ 18 
-        deal(address(token), alice, 100e18);  // StdCheats.deal
+        deal(address(token), alice, 100 ether ); //100e18 // StdCheats.deal
 
         console.log("alice token balance", token.balanceOf(alice));
         assertEq(token.balanceOf(alice), 100 ether);

@@ -59,6 +59,7 @@ contract StorageStruct {
 
 contract StorageMapping {
     mapping(address => uint) public x;
+    uint y;
 
     function foo(address a, address b) public {
         x[a] = 1;  // slot = keccak256(abi.encode(key, slot_x))
@@ -92,7 +93,7 @@ contract StorageArray {
     uint[2] public b; // slot 1, 2
     uint[] public c; // slot 3  // save length, 元素数据存储的起始位置是：keccak256(slot)
 
-    uint32[2] public d; // slot 4
+    uint32[2] private d; // slot 4
 
     function foo() public {
         b[0] = 1;
