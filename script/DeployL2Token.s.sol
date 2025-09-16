@@ -3,7 +3,7 @@
 pragma solidity ^0.8.0;
 
 import { Script } from "forge-std/Script.sol";
-import { IOptimismMintableERC20Factory } from "src/interfaces/universal/IOptimismMintableERC20Factory.sol";
+import { IOptimismMintableERC20Factory } from "../src/op_stack/IOptimismMintableERC20Factory.sol";
 
 contract DeployL2Token is Script {
     // L2 上的工厂合约地址（预部署）
@@ -11,7 +11,7 @@ contract DeployL2Token is Script {
 
     function run() public {
         // 你的 L1 代币地址
-        address l1Token = 0x...; // 替换为你的 L1 代币地址
+        address l1Token = 0x0000000000000000000000000000000000000000; // 替换为你的 L1 代币地址
 
         // 代币信息
         string memory name = "Your Token Name";
@@ -31,7 +31,5 @@ contract DeployL2Token is Script {
 
         vm.stopBroadcast();
 
-        console.log("L2 Token deployed at:", l2Token);
-        console.log("L1 Token address:", l1Token);
     }
 }

@@ -74,7 +74,8 @@ contract IDO {
         emit Claimed(msg.sender, tokenAmount);
     }
 
-    function refund() external {
+    function refund() external 
+    {
         require(finalized, "Not finalized");
         require(!success, "IDO succeeded");
         uint256 userContribution = contributions[msg.sender];

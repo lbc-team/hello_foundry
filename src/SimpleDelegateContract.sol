@@ -9,7 +9,7 @@ import { TokenBank } from "../src/TokenBank.sol";
 contract SimpleDelegateContract {
     event Executed(address indexed to, uint256 value, bytes data);
  
-    struct UserOP {
+    struct Call {
         bytes data;
         address to;
         uint256 value;
@@ -17,9 +17,9 @@ contract SimpleDelegateContract {
 
     // ERC20 Approve 
     // TokenBank Deposit
-    function execute(UserOP[] memory calls) external payable {
+    function execute(Call[] memory calls) external payable {
         for (uint256 i = 0; i < calls.length; i++) {
-            UserOP memory op = calls[i];
+            Call memory op = calls[i];
             (bool success, bytes memory result) = op.to.call{value: op.value}(op.data);
             require(success, string(result));
             emit Executed(op.to, op.value, op.data);

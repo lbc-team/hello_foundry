@@ -13,9 +13,9 @@ abstract contract BaseScript is Script {
         (deployer, ) = deriveRememberKey(mnemonic, 0);
         console.log("deployer: %s", deployer);
 
-        // uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
-        // deployer = vm.addr(deployerPrivateKey);
-        // console.log("deployer: %s", deployer);
+        // uint256 deployer = vm.envUint("PRIVATE_KEY");
+        // user = vm.addr(deployerPrivateKey);
+        // console.log("deployer: %s", user);
     }
 
 
