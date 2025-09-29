@@ -7,13 +7,14 @@ abstract contract BaseScript is Script {
     address internal deployer;
     address internal user;
     string internal mnemonic;
+    uint256 internal deployerPrivateKey;
 
     function setUp() public virtual {
-        mnemonic = vm.envString("MNEMONIC");
-        (deployer, ) = deriveRememberKey(mnemonic, 0);
-        console.log("deployer: %s", deployer);
+        // mnemonic = vm.envString("MNEMONIC");
+        // (deployer, ) = deriveRememberKey(mnemonic, 0);
+        // console.log("deployer: %s", deployer);
 
-        // uint256 deployer = vm.envUint("PRIVATE_KEY");
+        deployerPrivateKey = vm.envUint("PRIVATE_KEY");
         // user = vm.addr(deployerPrivateKey);
         // console.log("deployer: %s", user);
     }
@@ -29,7 +30,7 @@ abstract contract BaseScript is Script {
     }
 
     modifier broadcaster() {
-        vm.startBroadcast(deployer);
+        vm.startBroadcast(deployerPrivateKey);
         _;
         vm.stopBroadcast();
     }
