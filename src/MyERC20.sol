@@ -1,6 +1,6 @@
 //SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.0;
+pragma solidity 0.8.29;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
@@ -20,6 +20,9 @@ contract MyERC20 is ERC20 {
      * @param amount 转账数量
      * @param data 附加数据
      */
+
+    // transferWithCallback(NFTMarket address, price, tokenId)
+    // tokenId encoded in data
     function transferWithCallback(address to, uint256 amount, bytes calldata data) external returns (bool) {
         // 执行转账
         transfer(to, amount);
