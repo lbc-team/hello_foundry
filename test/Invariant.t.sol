@@ -20,6 +20,9 @@ contract MyERC20Test is Test {
             token.transfer(user, 1000 * 10 ** 18);
         }
         users.push(address(this));
+        
+        // 配置不变性测试的目标合约
+        targetContract(address(this));
     }
     
     // 这个函数会被 Foundry 随机调用
@@ -44,6 +47,7 @@ contract MyERC20Test is Test {
         token.transfer(to, amount);
     }
     
+    // 在很多随机调用transfer后， 验证总供应量等于所有用户余额的总和
     function invariant_totalSupplyEqualsSumOfBalances() public view {
         uint256 totalSupply = token.totalSupply();
         uint256 sumOfBalances = 0;
@@ -58,13 +62,4 @@ contract MyERC20Test is Test {
         assertEq(totalSupply, sumOfBalances, "Total supply does not equal the sum of all user balances");
     }
     
-    // 指定要测试的合约和函数
-    function targetContract() public view returns (address) {
-        return address(this);
-    }
-    
-    // 指定要测试的函数， 不指定的函数会执行 targetContract 下所有 public 函数 
-    function targetSelector() public pure returns (bytes4) {
-        return bytes4(keccak256("transfer(uint256,uint256,uint256)"));
-    }
 } 
