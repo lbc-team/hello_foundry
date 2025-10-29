@@ -27,7 +27,6 @@ contract FuzzTest is Test {
         vm.assume(to != address(this));
         amount = bound(amount, 0, 10000 * 10 ** 18);
         // vm.assume(amount <= token.balanceOf(address(this)));
-        
         token.transfer(to, amount);
         assertEq(token.balanceOf(to), amount);
     }

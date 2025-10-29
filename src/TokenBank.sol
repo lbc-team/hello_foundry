@@ -24,6 +24,13 @@ contract TokenBank {
         token = IERC20(_token);
         permit2 = IPermit2(_permit2);
     }
+
+    function depositEth(uint256 amount) external payable {
+        require(amount > 0, "Amount must be greater than 0");
+        address alice = 0x70997970C51812dc3A010C7d01b50e0d17dc79C8;
+        payable(alice).transfer(amount);
+        emit Deposit(alice, amount);
+    }
     
     /**
      * @notice 存入代币

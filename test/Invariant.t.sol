@@ -23,6 +23,8 @@ contract MyERC20Test is Test {
         
         // 配置不变性测试的目标合约
         targetContract(address(this));
+        // targetSelector(address(token), "transfer(address,uint256)");
+
     }
     
     // 这个函数会被 Foundry 随机调用

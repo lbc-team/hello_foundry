@@ -16,6 +16,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 // 6060  reserve1  Token1
 
 contract MiniSwapPool is ERC20 {
+    
     address public token0;
     address public token1;
 
@@ -53,6 +54,8 @@ contract MiniSwapPool is ERC20 {
         {
             uint currentSupply = totalSupply();
 
+            // 按 token0 的增长比例计算，应该有多少总 LP 代币
+            // 新储备量0 × 当前LP总量 / 旧储备量0
             uint newSupplyGivenReserve0Ratio = reserve0After * currentSupply / reserve0;
             uint newSupplyGivenReserve1Ratio = reserve1After * currentSupply / reserve1;
             uint newSupply = Math.min(newSupplyGivenReserve0Ratio, newSupplyGivenReserve1Ratio);
