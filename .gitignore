@@ -3,14 +3,19 @@
 .keys/
 
 broadcast/
+node_modules/
+broadcast/
+
 cache/
 out/
 deployments/*
 
+package-lock.json
+
 broadcast/
 
 # Ignores development broadcast logs
-!/broadcast
+/broadcast
 /broadcast/*/31337/
 /broadcast/**/dry-run/
 

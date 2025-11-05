@@ -1,0 +1,25 @@
+{
+  "name": "helper",
+  "version": "1.0.0",
+  "scripts": {
+    "merkle": "node test_scripts/generate_merkle_tree.js",
+    "eip712": "node test_scripts/generate_eip712_signature.js"
+  },
+  "keywords": [
+    "ethereum",
+    "solidity",
+    "whitelist",
+    "merkle-tree",
+    "eip-712"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "ethers": "^6.9.0",
+    "merkletreejs": "^0.3.11"
+  },
+  "devDependencies": {
+    "express": "^4.18.2"
+  }
+}
+

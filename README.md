@@ -1,19 +1,7 @@
 ## Foundry
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+登链社区[线上线下集训营](https://learnblockchain.cn/openspace/1)参考代码库
 
-Foundry consists of:
-
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
-
-## Documentation
-
-https://book.getfoundry.sh/
-
-## Usage
 
 ### Build
 
@@ -75,9 +63,9 @@ $ forge script script/MyERC20_2.s.sol --rpc-url sepolia --broadcast
 
 
 forge verify-contract \
-    0xDAdd8cd43dFAB8E9704ac3a1f00f29f29981f7f2 \
+    0xF02f3825618d0845Fdf65102A3C53A0aE2b75bb9 \
     src/MyERC20.sol:MyERC20 \
-    --constructor-args $(cast abi-encode "constructor(string,string)" "OpenSpace Token" "OPS") \
+    --constructor-args $(cast abi-encode "constructor(string,string)" "OpenSpace Token" "OST") \
     --verifier etherscan \
     --verifier-url https://api-sepolia.etherscan.io/api \
     --etherscan-api-key $ETHERSCAN_API_KEY \

