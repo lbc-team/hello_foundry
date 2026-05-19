@@ -36,7 +36,8 @@ contract TokenBank {
      * @notice 存入代币
      * @param amount 存入数量
      */
-    function deposit(uint256 amount) external {
+
+    function deposit(uint256 amount ) external {
         require(amount > 0, "Amount must be greater than 0");
         
         // 将代币从用户转移到合约
@@ -84,7 +85,6 @@ contract TokenBank {
             msg.sender,     
             signature
         );
-        
         // 更新存款记录
         deposits[msg.sender] += permit.permitted.amount;
         totalDeposits += permit.permitted.amount;

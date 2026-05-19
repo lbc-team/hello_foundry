@@ -11,7 +11,7 @@ contract MyERC20Script is Script {
 
     function run() public {
         vm.startBroadcast();
-        myERC20 = new MyERC20("OpenSpace S6", "OS6");
+        myERC20 = new MyERC20("UPT26", "UPT26");
         vm.stopBroadcast();
     }
 }

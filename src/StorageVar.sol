@@ -6,7 +6,7 @@ contract StorageVars {
     uint y;
     uint z;
 
-    // gas : 75225
+    // gas : 65413
     function foo() public {
         y = 2;   // (SSTORE 0x01, 0x02)
         z = 3;   // (SSTORE 0x02, 0x03)
@@ -29,7 +29,7 @@ contract StorageCompact {
     }
 
 
-// gas : 50242
+// gas : 43688
     function bar() public {
         x = 1;
         y = 2;

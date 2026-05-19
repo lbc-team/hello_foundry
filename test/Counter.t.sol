@@ -23,7 +23,7 @@ contract CounterTest is Test {
     }
 
     function testFuzz_SetNumber(uint256 x) public {
-        assertEq(counter.number(), 0);  // 上一次的测试不会影响下一次的测试
+        assertEq(counter.number(), 0); // 上一次的测试不会影响下一次的测试
         counter.setNumber(x);
         assertEq(counter.number(), x);
     }

@@ -1,0 +1,20 @@
+{
+  "lib/forge-std": {
+    "rev": "f46d8301cf732f4f83846565aa475628265e51e0"
+  },
+  "lib/openzeppelin-contracts": {
+    "rev": "83d2a247be73b065d45977d2943e18810ae0dbef"
+  },
+  "lib/openzeppelin-foundry-upgrades": {
+    "tag": {
+      "name": "v0.4.0",
+      "rev": "cbce1e00305e943aa1661d43f41e5ac72c662b07"
+    }
+  },
+  "lib/permit2-light-sdk": {
+    "rev": "37be1b95f9eeb57ef564884d27d0272e7d535bd2"
+  },
+  "lib/permit2-sdk": {
+    "rev": "bab5d5264bc03c8a2e38bc4d0c9e3e3f33aee698"
+  }
+}

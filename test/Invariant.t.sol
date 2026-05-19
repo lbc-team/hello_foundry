@@ -48,6 +48,7 @@ contract MyERC20Test is Test {
         vm.prank(from);
         token.transfer(to, amount);
     }
+
     
     // 在很多随机调用transfer后， 验证总供应量等于所有用户余额的总和
     function invariant_totalSupplyEqualsSumOfBalances() public view {

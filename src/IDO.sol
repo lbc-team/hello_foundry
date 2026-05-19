@@ -6,13 +6,15 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 contract IDO {
     IERC20 public opsToken;
     address public owner;
-    
+
     uint256 public constant TOKEN_PRICE = 0.0001 ether; // 1 OPS = 0.0001 ETH
     uint256 public constant TOTAL_TOKENS = 1_000_000 * 1e18; // 100万 OPS
+
     uint256 public constant SOFT_CAP = 100 ether; // 预售目标
     uint256 public constant HARD_CAP = 200 ether; // 最大募集
+
     uint256 public constant MIN_CONTRIBUTION = 0.001 ether; // 最小参与
-    
+
     uint256 public totalRaised;
     uint256 public totalClaimed;
     uint256 public deadline;
@@ -66,16 +68,18 @@ contract IDO {
         uint256 userContribution = contributions[msg.sender];
         require(userContribution > 0, "No contribution");
         require(claimed[msg.sender] == 0, "Already claimed");
-        uint256 tokenAmount = userContribution * 1e18 / TOKEN_PRICE;
+        uint256 tokenAmount = (userContribution * 1e18) / TOKEN_PRICE;
         require(tokenAmount > 0, "No tokens to claim");
         claimed[msg.sender] = tokenAmount;
         totalClaimed += tokenAmount;
-        require(opsToken.transfer(msg.sender, tokenAmount), "Token transfer failed");
+        require(
+            opsToken.transfer(msg.sender, tokenAmount),
+            "Token transfer failed"
+        );
         emit Claimed(msg.sender, tokenAmount);
     }
 
-    function refund() external 
-    {
+    function refund() external {
         require(finalized, "Not finalized");
         require(!success, "IDO succeeded");
         uint256 userContribution = contributions[msg.sender];
@@ -95,7 +99,7 @@ contract IDO {
     // 允许 owner 回收未售出的 token
     function withdrawUnsoldTokens() external onlyOwner {
         require(finalized, "Not finalized");
-        uint256 sold = totalRaised * 1e18 / TOKEN_PRICE;
+        uint256 sold = (totalRaised * 1e18) / TOKEN_PRICE;
         uint256 unsold = TOTAL_TOKENS - sold;
         if (unsold > 0) {
             require(opsToken.transfer(owner, unsold), "Token transfer failed");
@@ -118,4 +122,4 @@ contract IDO {
         totalRaised += msg.value;
         emit Presaled(msg.sender, msg.value);
     }
-} 
+}

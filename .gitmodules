@@ -10,3 +10,6 @@
 [submodule "lib/permit2-light-sdk"]
 	path = lib/permit2-light-sdk
 	url = https://github.com/gmh5225/permit2-light-sdk
+[submodule "lib/openzeppelin-foundry-upgrades"]
+	path = lib/openzeppelin-foundry-upgrades
+	url = https://github.com/OpenZeppelin/openzeppelin-foundry-upgrades

@@ -13,6 +13,8 @@ contract Owner {
         owner = msg.sender;
     }
 
+    // indexed -> topic
+    // data
     event OwnerTransfer(address indexed caller, address indexed newOwner);
 
     function transferOwnership(address newOwner) public {

@@ -18,17 +18,27 @@ contract NFTMarket is ITokenReceiver, IERC721Receiver {
 
     // NFT 上架信息
     struct Listing {
-        address seller;      // 卖家地址
-        uint256 price;       // 价格（以 token 计价）
-        bool isActive;       // 是否在售
+        address seller; // 卖家地址
+        uint256 price; // 价格（以 token 计价）
+        bool isActive; // 是否在售
     }
 
     // tokenId => Listing
     mapping(uint256 => Listing) public listings;
 
     // 事件
-    event NFTListed(uint256 indexed tokenId, address indexed seller, uint256 price);
-    event NFTSold(uint256 indexed tokenId, address indexed seller, address indexed buyer, uint256 price);
+    event NFTListed(
+        uint256 indexed tokenId,
+        address indexed seller,
+        uint256 price
+    );
+    event NFTSold(
+        uint256 indexed tokenId,
+        address indexed seller,
+        address indexed buyer,
+        uint256 price
+    );
+
     event NFTDelisted(uint256 indexed tokenId, address indexed seller);
 
     /**
@@ -48,7 +58,10 @@ contract NFTMarket is ITokenReceiver, IERC721Receiver {
      */
     function list(uint256 tokenId, uint256 price) external {
         require(price > 0, "NFTMarket: price must be greater than 0");
-        require(nftContract.ownerOf(tokenId) == msg.sender, "NFTMarket: caller is not token owner");
+        require(
+            nftContract.ownerOf(tokenId) == msg.sender,
+            "NFTMarket: caller is not token owner"
+        );
         require(!listings[tokenId].isActive, "NFTMarket: NFT already listed");
 
         // 将 NFT 转移到合约
@@ -71,7 +84,10 @@ contract NFTMarket is ITokenReceiver, IERC721Receiver {
     function delist(uint256 tokenId) external {
         Listing storage listing = listings[tokenId];
         require(listing.isActive, "NFTMarket: NFT not listed");
-        require(listing.seller == msg.sender, "NFTMarket: caller is not seller");
+        require(
+            listing.seller == msg.sender,
+            "NFTMarket: caller is not seller"
+        );
 
         // 将 NFT 归还给卖家
         nftContract.safeTransferFrom(address(this), msg.sender, tokenId);
@@ -109,7 +125,6 @@ contract NFTMarket is ITokenReceiver, IERC721Receiver {
         emit NFTSold(tokenId, seller, msg.sender, price);
     }
 
-
     // Buy NFT with transferWithCallback version
 
     /**
@@ -123,9 +138,12 @@ contract NFTMarket is ITokenReceiver, IERC721Receiver {
         address from,
         address to,
         uint256 amount,
-        bytes calldata data// 0x0000000000000000000000000000000000000000000000000000000000000001
+        bytes calldata data // 0x0000000000000000000000000000000000000000000000000000000000000001
     ) external override {
-        require(msg.sender == address(paymentToken), "NFTMarket: caller is not payment token");
+        require(
+            msg.sender == address(paymentToken),
+            "NFTMarket: caller is not payment token"
+        );
         require(to == address(this), "NFTMarket: invalid recipient");
         require(data.length >= 32, "NFTMarket: invalid data");
 
@@ -181,11 +199,9 @@ contract NFTMarket is ITokenReceiver, IERC721Receiver {
      * @return price 价格
      * @return isActive 是否在售
      */
-    function getListing(uint256 tokenId) external view returns (
-        address seller,
-        uint256 price,
-        bool isActive
-    ) {
+    function getListing(
+        uint256 tokenId
+    ) external view returns (address seller, uint256 price, bool isActive) {
         Listing memory listing = listings[tokenId];
         return (listing.seller, listing.price, listing.isActive);
     }

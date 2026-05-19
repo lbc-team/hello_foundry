@@ -35,10 +35,8 @@ contract CheatcodeTest is Test {
         assertEq(counter.number(), 1);
     }
 
-
-
     function test_Warp() public {
-        uint256 newTimestamp = 1753207525; 
+        uint256 newTimestamp = 1753207525;
         vm.warp(newTimestamp);
         console.log("after warp Block timestamp", block.timestamp);
         assertEq(block.timestamp, newTimestamp);
@@ -47,7 +45,6 @@ contract CheatcodeTest is Test {
         console.log("after skip Block timestamp", block.timestamp);
         assertEq(block.timestamp, newTimestamp + 1000);
     }
-
 
     function test_Prank() public {
         console.log("current contract address", address(this));
@@ -59,7 +56,7 @@ contract CheatcodeTest is Test {
 
         console.log("alice address", alice);
         vm.prank(alice);
-        Owner o2 = new Owner();
+        Owner o2 = new Owner(); // msg.sender = alice
         assertEq(o2.owner(), alice);
     }
 
@@ -73,8 +70,8 @@ contract CheatcodeTest is Test {
 
         vm.startPrank(alice);
         Owner o2 = new Owner();
+        console.log("alice:", address(alice));
         assertEq(o2.owner(), alice);
-
 
         Owner o4 = new Owner();
         assertEq(o4.owner(), alice);
@@ -99,16 +96,15 @@ contract CheatcodeTest is Test {
 
         console.log("alice address", alice);
 
-        // 1 token = 10 ^ 18 
-        deal(address(token), alice, 100 ether ); //100e18 // StdCheats.deal
+        // 1 token = 10 ^ 18
+        deal(address(token), alice, 100 ether); //100e18 // StdCheats.deal
 
         console.log("alice token balance", token.balanceOf(alice));
         assertEq(token.balanceOf(alice), 100 ether);
     }
 
-// forge test test/Cheatcode.t.sol --mt test_Revert_IFNOT_Owner -vv
+    // forge test test/Cheatcode.t.sol --mt test_Revert_IFNOT_Owner -vv
     function test_Revert_IFNOT_Owner() public {
-        
         vm.startPrank(alice);
         Owner o = new Owner();
         vm.stopPrank();
@@ -118,7 +114,6 @@ contract CheatcodeTest is Test {
         vm.expectRevert("Only the owner can transfer ownership"); // 预期下一条语句会revert
         o.transferOwnership(alice);
         vm.stopPrank();
-
     }
 
     function test_Revert_IFNOT_Owner2() public {
@@ -136,12 +131,11 @@ contract CheatcodeTest is Test {
     event OwnerTransfer(address indexed caller, address indexed newOwner);
     function test_Emit() public {
         Owner o = new Owner();
-
+        // checkTopic0: OwnerTransfer
         // function expectEmit(bool checkTopic1, bool checkTopic2, bool checkTopic3, bool checkData) external;
         vm.expectEmit(true, true, false, false);
         emit OwnerTransfer(address(this), bob);
 
         o.transferOwnership(bob);
     }
-
 }

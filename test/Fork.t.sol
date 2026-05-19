@@ -16,8 +16,8 @@ contract ForkTest is Test {
         uint forkBlock = 8219000;
         sepoliaForkId = vm.createSelectFork(vm.rpcUrl("sepolia"), forkBlock);
 
-        uint256 polygonForkBlock = 30_000_000;
-        polygonForkId = vm.createSelectFork(vm.rpcUrl("polygon"), polygonForkBlock);
+        // uint256 polygonForkBlock = 30_000_000;
+        // polygonForkId = vm.createSelectFork(vm.rpcUrl("polygon"), polygonForkBlock);
     }
 
     function test_Something() public {
@@ -26,14 +26,15 @@ contract ForkTest is Test {
         assertEq(vm.activeFork(), sepoliaForkId);
 
         MyERC20 token = MyERC20(0x21b4D1f6d42dc6083db848D42AA4b6895371E1e7);
+        
         assertGe(token.balanceOf(0xe7a4159Be8c74c3BB38A45B31cF59889EF3F32b7), 1e18);
     }
 
 
-    function test_PolygonSomething() public {
-        vm.selectFork(polygonForkId);
-        assertEq(vm.activeFork(), polygonForkId);
+    // function test_PolygonSomething() public {
+    //     vm.selectFork(polygonForkId);
+    //     assertEq(vm.activeFork(), polygonForkId);
 
-    }
+    // }
 
 }

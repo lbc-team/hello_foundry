@@ -63,22 +63,11 @@ $ forge script script/MyERC20_2.s.sol --rpc-url sepolia --broadcast
 
 
 forge verify-contract \
-    0xF02f3825618d0845Fdf65102A3C53A0aE2b75bb9 \
-    src/MyERC20.sol:MyERC20 \
-    --constructor-args $(cast abi-encode "constructor(string,string)" "OpenSpace Token" "OST") \
-    --verifier etherscan \
-    --verifier-url https://api-sepolia.etherscan.io/api \
-    --etherscan-api-key $ETHERSCAN_API_KEY \
-    --chain-id 11155111
-
-
-forge verify-contract \
-    0xD3c6a2c8687cBCF63ac131E05c65Ee1BEa2e3241 \
+    0x4b15611f26538d3f95755eaC90F18fbFF5E2D068 \
     src/Counter.sol:Counter \
-    --verifier etherscan \
-    --verifier-url $POLYSCAN_URL \
-    --etherscan-api-key $POLYSCAN_API_KEY \
-    --chain-id 137
+    --chain sepolia \
+    --etherscan-api-key $ETHERSCAN_API_KEY
+
 
 ```
 
@@ -108,6 +97,10 @@ $ cast <subcommand>
 
 > cast wallet import --mnemonic "test test test test test test test test test test test junk” -k <KEYSTORE_DIR> <ACCOUNT_NAME>
 
+### 调用合约
+
+cast call 0x5FbDB2315678afecb367f032d93F642f64180aa3 "number()" --rpc-url local
+cast send 0x5FbDB2315678afecb367f032d93F642f64180aa3 "setNumber(uint256)" 10 --rpc-url local --account test_test
 
 ### 转账
 
@@ -118,9 +111,9 @@ cast send 0xa0Ee7A142d267C1f36714E4a8F75612F20a79720 --value 1000000000000000000
 
 cast send  0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9
 
-cast send 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9 "transfer(address to, uint256 value)" 0xa0Ee7A142d267C1f36714E4a8F75612F20a79720 1000000000000000000000 --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 --rpc-url local
+cast send 0xc5a5C42992dECbae36851359345FE25997F5C42d "transfer(address to, uint256 value)" 0xa0Ee7A142d267C1f36714E4a8F75612F20a79720 1000000000000000000000 --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 --rpc-url local
 
-cast send 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9 "approve(address to, uint256 value)" 0xa0Ee7A142d267C1f36714E4a8F75612F20a79720 1000000000000000000000 --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 --rpc-url local
+cast send 0xc5a5C42992dECbae36851359345FE25997F5C42d "approve(address to, uint256 value)" 0xa0Ee7A142d267C1f36714E4a8F75612F20a79720 1000000000000000000000 --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 --rpc-url local
 
 
 ###  keccak
@@ -150,6 +143,12 @@ cast abi-encode 'enc(uint a, bytes memory b)' 1 0x0123
 
 logs                 [{"address":"0xdac17f958d2ee523a2206206994597c13d831ec7","topics":["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef","0x000000000000000000000000214095cca66b93f7dd819e51a19d6560f8450936","0x00000000000000000000000028c6c06298d514db089934071355e5743bf21d60"],"data":"0x000000000000000000000000000000000000000000000000000000006553f100","blockHash":"0x3bdf2afb4eddcb848093c6f2466804a45aea4c5b12532136e1f48a0e474a0719","blockNumber":"0x1570445","transactionHash":"0x5f7fd2457348472ec5c25500cae145b91843ccf3921e4cbe78fd91c39a8b6855","transactionIndex":"0x163","logIndex":"0x255","removed":false}]
 
+
+
+cast run 0xabc123... \
+  --rpc-url https://eth-mainnet.g.alchemy.com/v2/xxxx
+
+cast run 0x383ac9c6749d0b91d0766b0b5ec73c604582bf6b711683e1c7c2971577af2d46 --rpc-url https://rpc.eth.gateway.fm
 
 ## Test
 
@@ -183,3 +182,4 @@ $ cast --help
     0123000000000000000000000000000000000000000000000000000000000000
     0000000000000000000000000000000000000000000000000000000000000002
     7890000000000000000000000000000000000000000000000000000000000000
+

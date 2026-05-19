@@ -1,0 +1,51 @@
+{
+  "domain": {
+    "name": "Whitelist",
+    "version": "1.0.0",
+    "chainId": 31337,
+    "verifyingContract": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+  },
+  "types": {
+    "WhitelistRequest": [
+      {
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "name": "nonce",
+        "type": "uint256"
+      },
+      {
+        "name": "expiry",
+        "type": "uint256"
+      }
+    ]
+  },
+  "signatures": [
+    {
+      "user": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      "nonce": 0,
+      "expiry": 1762438279,
+      "expiryDate": "2025-11-06T14:11:19.000Z",
+      "signature": "0x068ef424f289bba53b7a87d480c7161bd57c94b21cf6550b9f9b4d6ceae18e5471b29715e2d4c6346761c66baf58b6fd5a219988a5ed38a84f86ae2156705ca91b",
+      "signerAddress": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "user": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+      "nonce": 0,
+      "expiry": 1762438279,
+      "expiryDate": "2025-11-06T14:11:19.000Z",
+      "signature": "0xe1e17d0e64ae37ec1677e0bac2a975f9b43ac7ce7603574384f0299f6759567f2dd7922a60adb915c94e0cf7fb7f7a66c772c21aead9c590cc7b80a63696f4231b",
+      "signerAddress": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    },
+    {
+      "user": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+      "nonce": 0,
+      "expiry": 1762438279,
+      "expiryDate": "2025-11-06T14:11:19.000Z",
+      "signature": "0x5602c664ccdd591a9fe59c517ed3131b51b72f5f54f6ae6db5d932d3b42e874158e01d6d0e049c45174e830d66ed657c8809aeb5fd1a53a78cc18ffc046642dd1c",
+      "signerAddress": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    }
+  ],
+  "generatedAt": "2025-11-05T14:11:19.458Z"
+}
