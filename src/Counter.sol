@@ -7,12 +7,12 @@ contract Counter {
 
     function setNumber(uint256 newNumber) public {
         number = newNumber;
-        // console.log("Number set to", number);
+        // console.log("Number set to %d", number);
     }
 
     function increment() public {
         number++;
-        // console.log("Number incremented to", number);
+        // console.log("Number incremented to %d", number);
     }
 
     function none() public {}

@@ -7,16 +7,14 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 // fork from https://github.com/monokh/looneyswap
 
-// Tom：1  MSP 
-// Bob: 2 MSP 
-// Alice: 3 MSP 
-
+// Tom：1  MSP
+// Bob: 2 MSP
+// Alice: 3 MSP
 
 // 10100 reserve0  Token0
 // 6060  reserve1  Token1
 
 contract MiniSwapPool is ERC20 {
-    
     address public token0;
     address public token1;
 
@@ -26,19 +24,24 @@ contract MiniSwapPool is ERC20 {
     // Reserve of token 1
     uint public reserve1;
 
-    uint public constant INITIAL_SUPPLY = 10**5;
+    uint public constant INITIAL_SUPPLY = 10 ** 5;
 
-    constructor(address _token0, address _token1, string memory name, string memory symbol) ERC20(name, symbol) {
+    constructor(
+        address _token0,
+        address _token1,
+        string memory name,
+        string memory symbol
+    ) ERC20(name, symbol) {
         token0 = _token0;
         token1 = _token1;
     }
 
     /**
-    * Adds liquidity to the pool.
-    * 1. Transfer tokens to pool
-    * 2. Emit LP tokens
-    * 3. Update reserves
-    */
+     * Adds liquidity to the pool.
+     * 1. Transfer tokens to pool
+     * 2. Emit LP tokens
+     * 3. Update reserves
+     */
     function addLiquidity(uint amount0, uint amount1) public {
         assert(IERC20(token0).transferFrom(msg.sender, address(this), amount0));
         assert(IERC20(token1).transferFrom(msg.sender, address(this), amount1));
@@ -46,19 +49,21 @@ contract MiniSwapPool is ERC20 {
         uint reserve0After = reserve0 + amount0;
         uint reserve1After = reserve1 + amount1;
 
-        if (reserve0 == 0 && reserve1 == 0) 
-        {
+        if (reserve0 == 0 && reserve1 == 0) {
             _mint(msg.sender, INITIAL_SUPPLY);
-        } 
-        else 
-        {
+        } else {
             uint currentSupply = totalSupply();
 
             // 按 token0 的增长比例计算，应该有多少总 LP 代币
             // 新储备量0 × 当前LP总量 / 旧储备量0
-            uint newSupplyGivenReserve0Ratio = reserve0After * currentSupply / reserve0;
-            uint newSupplyGivenReserve1Ratio = reserve1After * currentSupply / reserve1;
-            uint newSupply = Math.min(newSupplyGivenReserve0Ratio, newSupplyGivenReserve1Ratio);
+            uint newSupplyGivenReserve0Ratio = (reserve0After * currentSupply) /
+                reserve0;
+            uint newSupplyGivenReserve1Ratio = (reserve1After * currentSupply) /
+                reserve1;
+            uint newSupply = Math.min(
+                newSupplyGivenReserve0Ratio,
+                newSupplyGivenReserve1Ratio
+            );
             _mint(msg.sender, newSupply - currentSupply);
         }
 
@@ -67,21 +72,21 @@ contract MiniSwapPool is ERC20 {
     }
 
     /**
-    * Removes liquidity from the pool.
-    * 1. Transfer LP tokens to pool
-    * 2. Burn the LP tokens
-    * 3. Update reserves
-    */
+     * Removes liquidity from the pool.
+     * 1. Transfer LP tokens to pool
+     * 2. Burn the LP tokens
+     * 3. Update reserves
+     */
     function remove(uint liquidity) public {
         assert(transfer(address(this), liquidity));
 
         uint currentSupply = totalSupply();
 
         // 10 lp token  ; total 100;
-        uint amount0 = liquidity * reserve0 / currentSupply;
-        uint amount1 = liquidity * reserve1 / currentSupply;
+        uint amount0 = (liquidity * reserve0) / currentSupply;
+        uint amount1 = (liquidity * reserve1) / currentSupply;
 
-        _burn(address(this), liquidity);    //  1 MSP
+        _burn(address(this), liquidity); //  1 MSP
 
         assert(IERC20(token0).transfer(msg.sender, amount0));
         assert(IERC20(token1).transfer(msg.sender, amount1));
@@ -90,11 +95,14 @@ contract MiniSwapPool is ERC20 {
     }
 
     /**
-    * Uses x * y = k formula to calculate output amount.
-    * 1. Calculate new reserve on both sides
-    * 2. Derive output amount
-    */
-    function getAmountOut (uint amountIn, address fromToken) public view returns (uint amountOut, uint _reserve0, uint _reserve1) {
+     * Uses x * y = k formula to calculate output amount.
+     * 1. Calculate new reserve on both sides
+     * 2. Derive output amount
+     */
+    function getAmountOut(
+        uint amountIn,
+        address fromToken
+    ) public view returns (uint amountOut, uint _reserve0, uint _reserve1) {
         uint newReserve0;
         uint newReserve1;
         uint k = reserve0 * reserve1;
@@ -120,23 +128,37 @@ contract MiniSwapPool is ERC20 {
     }
 
     /**
-    * Swap to a minimum of `minAmountOut`
-    * 1. Calculate new reserve on both sides
-    * 2. Derive output amount
-    * 3. Check output against minimum requested
-    * 4. Update reserves
-    */
-    function swap(uint amountIn, uint minAmountOut, address fromToken, address toToken, address to) public {
+     * Swap to a minimum of `minAmountOut`
+     * 1. Calculate new reserve on both sides
+     * 2. Derive output amount
+     * 3. Check output against minimum requested
+     * 4. Update reserves
+     */
+    function swap(
+        uint amountIn,
+        uint minAmountOut,
+        address fromToken,
+        address toToken,
+        address to
+    ) public {
         require(amountIn > 0 && minAmountOut > 0, "Amount invalid");
-        require(fromToken == token0 || fromToken == token1, "From token invalid");
+        require(
+            fromToken == token0 || fromToken == token1,
+            "From token invalid"
+        );
         require(toToken == token0 || toToken == token1, "To token invalid");
         require(fromToken != toToken, "From and to tokens should not match");
 
-        (uint amountOut, uint newReserve0, uint newReserve1) = getAmountOut(amountIn, fromToken);
+        (uint amountOut, uint newReserve0, uint newReserve1) = getAmountOut(
+            amountIn,
+            fromToken
+        );
 
         require(amountOut >= minAmountOut, "Slipped... on a banana");
 
-        assert(IERC20(fromToken).transferFrom(msg.sender, address(this), amountIn));
+        assert(
+            IERC20(fromToken).transferFrom(msg.sender, address(this), amountIn)
+        );
         assert(IERC20(toToken).transfer(to, amountOut));
 
         reserve0 = newReserve0;

@@ -34,17 +34,13 @@ contract SignDelegationTest is Test {
         calls[0] = SimpleDelegateContract.Call({to: address(token), data: data, value: 0});
  
         // Alice 签署一个委托，允许 `implementation` 执行交易。
-        Vm.SignedDelegation memory signedDelegation = vm.signDelegation(address(implementation), ALICE_PK);
+        // Since Alice herself broadcasts the transaction, her nonce is incremented to 1 before authorization verification,
+        // so the delegation signature must use nonce 1.
+        Vm.SignedDelegation memory signedDelegation = vm.signDelegation(address(implementation), ALICE_PK, 1);
  
-        // Bob 附加 Alice 的签名委托并广播。
-        vm.broadcast(BOB_PK);
+        // Alice 附加自己的签名委托并广播执行。
+        vm.broadcast(ALICE_PK);
         vm.attachDelegation(signedDelegation);
- 
-        // 验证 Alice 的账户现在是一个智能合约。
-        bytes memory code = address(ALICE_ADDRESS).code;
-        require(code.length > 0, "no code written to Alice");
- 
-        // 作为 Bob，代表 Alice 的合约执行交易。
         SimpleDelegateContract(ALICE_ADDRESS).execute(calls);
  
         // 验证 Bob 成功收到 100 个代币。
@@ -64,11 +60,30 @@ contract SignDelegationTest is Test {
         bytes memory code = address(ALICE_ADDRESS).code;
         require(code.length > 0, "no code written to Alice");
  
-        // 作为 Bob，代表 Alice 执行交易。
+        // 作为 Bob，使用 Alice 的签名代表 Alice 执行交易。
+        uint256 nonce = SimpleDelegateContract(ALICE_ADDRESS).getNonce();
+        bytes32 msgHash = SimpleDelegateContract(ALICE_ADDRESS).getMessageHash(calls, nonce);
+        (uint8 v, bytes32 r, bytes32 s) = vm.sign(ALICE_PK, msgHash);
+        bytes memory signature = abi.encodePacked(r, s, v);
+
         vm.broadcast(BOB_PK);
-        SimpleDelegateContract(ALICE_ADDRESS).execute(calls);
+        SimpleDelegateContract(ALICE_ADDRESS).executeWithSignature(calls, nonce, signature);
  
         // 验证 Bob 成功收到 100 个代币。
         vm.assertEq(token.balanceOf(BOB_ADDRESS), 100);
+    }
+
+    // Add a test to ensure unauthorized calls are blocked.
+    function testUnauthorizedCallReverts() public {
+        SimpleDelegateContract.Call[] memory calls = new SimpleDelegateContract.Call[](1);
+        bytes memory data = abi.encodeCall(MockERC20.mint, (100, BOB_ADDRESS));
+        calls[0] = SimpleDelegateContract.Call({to: address(token), data: data, value: 0});
+
+        vm.signAndAttachDelegation(address(implementation), ALICE_PK);
+
+        // Bob tries to execute directly on Alice's account without signature
+        vm.prank(BOB_ADDRESS);
+        vm.expectRevert("Not authorized");
+        SimpleDelegateContract(ALICE_ADDRESS).execute(calls);
     }
 }
