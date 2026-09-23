@@ -13,10 +13,9 @@ abstract contract BaseScript is Script {
         mnemonic = vm.envString("MNEMONIC");
         (deployer, ) = deriveRememberKey(mnemonic, 0); // for  local
         // console.log("deployer: %s", deployer);
-
         // deployerPrivateKey = vm.envUint("PRIVATE_KEY");
-        // user = vm.addr(deployerPrivateKey);
-        // console.log("deployer: %s", user);
+        // deployer = vm.addr(deployerPrivateKey);
+        console.log("deployer: %s", deployer);
     }
 
     function saveContract(string memory name, address addr) public {
@@ -35,7 +34,7 @@ abstract contract BaseScript is Script {
     }
 
     modifier broadcaster() {
-        vm.startBroadcast(deployer);
+        vm.startBroadcast(deployer); //deployer
         _;
         vm.stopBroadcast();
     }

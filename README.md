@@ -92,6 +92,8 @@ $ cast <subcommand>
 > cast wallet new-mnemonic  #  mnemonic phrase
 
 > cast wallet address [PRIVATE_KEY]  # private key to an address
+>
+> cast wallet address --keystore keystore/alice # 查看Keystore对应的地址
 
 > cast wallet import -i -k <KEYSTORE_DIR> <ACCOUNT_NAME>
 
@@ -183,3 +185,27 @@ $ cast --help
     0000000000000000000000000000000000000000000000000000000000000002
     7890000000000000000000000000000000000000000000000000000000000000
 
+
+
+curl --request POST \
+  --url http://127.0.0.1:8545/ \
+  --header 'content-type: application/json' \
+  --data '{
+    "jsonrpc": "2.0",
+    "method": "eth_call",
+    "params": [
+      {
+        "to": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+        "data": "0x61bc221a"
+      },
+      "latest"
+    ],
+    "id": 1
+  }'
+
+
+
+
+
+L1 Token: 0x37FcA00F832dA2E0D91EcC532E00f977Cd163f14
+L2 Token: 0x11421792198B8AC0b8BdF9Bc13dC93b91d78F4Fe

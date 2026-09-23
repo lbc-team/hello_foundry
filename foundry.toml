@@ -22,6 +22,7 @@ base-sepolia = "${SEPOLIA_BASE_RPC_URL}"
 polygon = "${POLYGON_RPC_URL}"
 local = "http://127.0.0.1:8545"
 optimism = "${OPTIMISM_RPC_URL}"
+mainnet="https://eth-mainnet.g.alchemy.com/v2/u-wTqoJUSOoqkVMAXlZi4"
 
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options

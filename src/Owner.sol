@@ -7,7 +7,6 @@ contract Owner {
     address public owner2;
     uint public y;
     address public owner3;
-    
 
     constructor() {
         owner = msg.sender;

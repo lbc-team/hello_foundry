@@ -32,6 +32,7 @@ contract NFTMarket is ITokenReceiver, IERC721Receiver {
         address indexed seller,
         uint256 price
     );
+
     event NFTSold(
         uint256 indexed tokenId,
         address indexed seller,

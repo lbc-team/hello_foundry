@@ -31,6 +31,7 @@ contract EIP712Verifier is EIP712 {
         bytes memory signature
     ) public view returns (bool) {
         bytes32 digest = hashSend(send);
+
         return digest.recover(signature) == signer;
     }
 

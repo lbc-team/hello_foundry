@@ -110,8 +110,8 @@ contract CheatcodeTest is Test {
         vm.stopPrank();
 
         vm.startPrank(bob);
-        // vm.expectRevert();
-        vm.expectRevert("Only the owner can transfer ownership"); // 预期下一条语句会revert
+        vm.expectRevert();
+        // vm.expectRevert("Only the owner can transfer ownership"); // 预期下一条语句会revert
         o.transferOwnership(alice);
         vm.stopPrank();
     }

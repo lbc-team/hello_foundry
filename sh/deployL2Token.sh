@@ -6,10 +6,10 @@ source .env
 
 cast send 0x4200000000000000000000000000000000000012 \
   "createOptimismMintableERC20(address,string,string)" \
-  "0x9B4810B4b24EF08528A62f15d772e7a18Fe44D1b" \
-  "UPT2026" \
-  "UPT2026" \
-  --rpc-url $SEPOLIA_BASE_RPC_URL \
+  "0x37FcA00F832dA2E0D91EcC532E00f977Cd163f14" \
+  "L2DAPPS2" \
+  "L2DAPPS2" \
+  --rpc-url https://optimism-sepolia.drpc.org \
   --private-key $PRIVATE_KEY
 
 
